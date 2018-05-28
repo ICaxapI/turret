@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="cling-core-2.1.1-sources">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/jarlib/opencv-341.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/jarlib/jssc.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/src/main/jarlib/opencv-341.jar!/" />
+    </SOURCES>
+  </library>
+</component>

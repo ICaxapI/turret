@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.exsoft.turret.GeneralController">
+   <children>
+      <ImageView fx:id="imageviev" fitHeight="480.0" fitWidth="640.0" layoutX="-14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="17.0" />
+      <Label fx:id="last" layoutY="6.0" prefHeight="10.0" prefWidth="395.0" text="Последний снимок был сделан: never" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+      <Label fx:id="next" layoutX="400.0" layoutY="6.0" prefHeight="17.0" prefWidth="395.0" text="Следующая серия снимков начнётся:" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="0.0" />
+      <Button fx:id="setInterval" layoutX="708.0" layoutY="34.0" mnemonicParsing="false" onAction="#setIntervallabel" text="Установить" AnchorPane.leftAnchor="717.0" AnchorPane.rightAnchor="5.0" />
+      <Label alignment="CENTER" layoutX="651.0" layoutY="17.0" text="Детектор включается на:" AnchorPane.leftAnchor="651.0" AnchorPane.rightAnchor="5.0" />
+      <TextField fx:id="intervallabel" layoutX="649.0" layoutY="34.0" prefHeight="25.0" prefWidth="25.0" text="2" AnchorPane.leftAnchor="651.0" AnchorPane.rightAnchor="124.0" />
+      <Label alignment="TOP_CENTER" layoutX="682.0" layoutY="38.0" text="мин." AnchorPane.leftAnchor="682.0" AnchorPane.rightAnchor="93.0" />
+      <TextArea editable="false" layoutX="651.0" layoutY="66.0" prefHeight="392.0" prefWidth="144.0" text="Детектор включается&#10;автоматически&#10;каждый каждый час, &#10;когда на системных&#10;часах 00 минут, на&#10;указанный&#10;промежуток&#10;времени." AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="651.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="66.0" />
+      <Button fx:id="openFolder" layoutX="651.0" layoutY="467.0" mnemonicParsing="false" onAction="#openFolder" prefHeight="25.0" prefWidth="144.0" text="Открыть папку с фото" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="651.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="463.0" />
+   </children>
+</AnchorPane>

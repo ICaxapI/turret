@@ -1,0 +1,1 @@
+bash copyToServer.sh
