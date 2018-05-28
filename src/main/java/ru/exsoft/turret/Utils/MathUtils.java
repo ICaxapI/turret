@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class MathUtils {
     private static int lastRandom = -1;
-    private static Random randomRand = new Random(System.currentTimeMillis());
 
     public static float middleOf3(float a, float b, float c) {
         float middle;
@@ -21,7 +20,7 @@ public class MathUtils {
     }
 
     public static int random(int floor, int roof) {
-        Random random = new Random(randomRand.nextInt((1000000000) - (0)) + (0));
+        Random random = new Random(System.currentTimeMillis());
         int returnInt = random.nextInt((roof) - (floor - 1)) + (floor - 1);
         if (returnInt == lastRandom){
             returnInt = random(floor, roof);

@@ -15,36 +15,36 @@ public class Arduino {
     private SerialPort serialPort;
 
     private Arduino() {
-        if (System.getProperty("os.name").equals("Linux")) {
-            serialPort = new SerialPort("/dev/ttyUSB" + Data.getInstance().getComPort());
-        } else {
-            serialPort = new SerialPort("COM" + Data.getInstance().getComPort());
-        }
-        System.out.println("Port " + Data.getInstance().getComPort() + " opened: " + openPort());
-        try {
-            System.out.println("Params setted: " + serialPort.setParams(115200, 8, 1, 0));
-            serialPort.addEventListener((SerialPortEvent serialPortEvent) -> {
-                try {
-                    System.out.println(serialPort.readString());
-                } catch (SerialPortException e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (SerialPortException ex) {
-            System.out.println(ex);
-        }
-        //MusicUtils.playVoice("deploy");
-        writeMsg("x50&y50&z100");
+//        if (System.getProperty("os.name").equals("Linux")) {
+//            serialPort = new SerialPort("/dev/ttyUSB" + Data.getInstance().getComPort());
+//        } else {
+//            serialPort = new SerialPort("COM" + Data.getInstance().getComPort());
+//        }
+//        System.out.println("Port " + Data.getInstance().getComPort() + " opened: " + openPort());
+//        try {
+//            System.out.println("Params setted: " + serialPort.setParams(115200, 8, 1, 0));
+//            serialPort.addEventListener((SerialPortEvent serialPortEvent) -> {
+//                try {
+//                    System.out.println(serialPort.readString());
+//                } catch (SerialPortException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        } catch (SerialPortException ex) {
+//            System.out.println(ex);
+//        }
+//        //MusicUtils.playVoice("deploy");
+//        writeMsg("x50&y50&z100");
     }
 
     public boolean writeMsg(String msg) {
-        try {
-            //System.out.println("Writing: " + msg);
-            msg += '&';
-            return serialPort.writeBytes(msg.getBytes());
-        } catch (SerialPortException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            //System.out.println("Writing: " + msg);
+//            msg += '&';
+//            return serialPort.writeBytes(msg.getBytes());
+//        } catch (SerialPortException e) {
+//            e.printStackTrace();
+//        }
         return false;
     }
 

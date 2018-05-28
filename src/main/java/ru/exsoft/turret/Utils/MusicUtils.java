@@ -84,7 +84,7 @@ public class MusicUtils {
     }
 
     private static void playMusicSDL(String file) {
-        System.out.println("Playing " + file);
+        //System.out.println("Playing " + file);
         SourceDataLine clipSDL = null;
         AudioInputStream ais = null;
         byte[] b = new byte[2048];

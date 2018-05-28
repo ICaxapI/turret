@@ -7,6 +7,7 @@ import ru.exsoft.turret.Modules.Arduino;
 import ru.exsoft.turret.Modules.OpenCVFaceDetected;
 import ru.exsoft.turret.Modules.Turret;
 import ru.exsoft.turret.Utils.Data;
+import ru.exsoft.turret.Utils.MathUtils;
 import ru.exsoft.turret.Utils.MusicUtils;
 import ru.exsoft.turret.Utils.OtherUtils;
 
@@ -33,11 +34,12 @@ public class Main {
                 }
             }
         }
-
+        System.out.println(MathUtils.random(1,2));
+        //Turret.loop();
         //System.out.println(getX(0,100));
-        Arduino.getInstance();
-        OtherUtils.sleepWinoutEx(2000);
-        Turret.search();
+        //Arduino.getInstance();
+        //OtherUtils.sleepWinoutEx(2000);
+        //!Turret.search();
         if (isGui) {
             Gui.main(args);
         } else {

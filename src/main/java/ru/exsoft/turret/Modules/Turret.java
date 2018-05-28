@@ -43,14 +43,11 @@ public class Turret {
     public static void loop() {
         new Thread(() -> {
             while (true) {
-                OtherUtils.sleepWinoutEx(750);
-                System.out.println(System.currentTimeMillis() - lastMotion);
-                System.out.println(!deployed);
-                if ((System.currentTimeMillis() - lastMotion < 200 && !deployed) || (System.currentTimeMillis() - lastMotion < 2000 && deployed)) {
+                if ((System.currentTimeMillis() - lastMotion < 200 && !deployed) || (System.currentTimeMillis() - lastMotion < 200 && deployed)) {
                     if (!deployed && !busyDeploy) {
-                        System.out.println("deploy: " + (System.currentTimeMillis() - lastMotion));
-                        busyDeploy = true;
                         new Thread(() -> {
+                            System.out.println("deploy: " + (System.currentTimeMillis() - lastMotion));
+                            busyDeploy = true;
                             MusicUtils.playVoice("fire");
                             MusicUtils.loopSound("alert", 3);
                             deploy();
@@ -58,30 +55,38 @@ public class Turret {
                         }).start();
                     } else if (deployed && !busyDeploy) {
                         if (!busyMoving) {
-                            System.out.println("move: " + (System.currentTimeMillis() - lastMotion));
-                            busyMoving = true;
-                            fire = true;
-                            MusicUtils.playFire();
-                            Arduino.getInstance().writeMsg("ft");
-                            OtherUtils.sleepWinoutEx(5);
-                            while (busyMoving) {
-                                updatePosition();
-                                OtherUtils.sleepWinoutEx(30);
-                            }
+                            new Thread(() -> {
+                                System.out.println("move: " + (System.currentTimeMillis() - lastMotion));
+                                busyMoving = true;
+                                fire = true;
+                                MusicUtils.playFire();
+                                Arduino.getInstance().writeMsg("ft");
+                                OtherUtils.sleepWinoutEx(5);
+                                busySearch = false;
+                                while (busyMoving) {
+                                    updatePosition();
+                                    OtherUtils.sleepWinoutEx(30);
+                                }
+                            }).start();
                         }
                     }
-                } else if (System.currentTimeMillis() - lastMotion > 2000 && deployed) {
-                    fire = false;
-                    System.out.println("lost: " + (System.currentTimeMillis() - lastMotion));
-                    Arduino.getInstance().writeMsg("ff");
-                    busyMoving = false;
-                    search();
-                } else if (System.currentTimeMillis() - lastMotion > 700) {
-                    System.out.println("blink: " + (System.currentTimeMillis() - lastMotion));
-                    MusicUtils.playVoice("blink");
+                } else if ((System.currentTimeMillis() - lastMotion > 1000 && deployed) && (System.currentTimeMillis() - lastMotion < 5000 && deployed)) {
+                    new Thread(() -> {
+                        fire = false;
+                        System.out.println("lost: " + (System.currentTimeMillis() - lastMotion));
+                        Arduino.getInstance().writeMsg("ff");
+                        busyMoving = false;
+                        search();
+                    }).start();
+                } else if (System.currentTimeMillis() - lastMotion > 200 && System.currentTimeMillis() - lastMotion < 500) {
+                    new Thread(() -> {
+                        System.out.println("blink: " + (System.currentTimeMillis() - lastMotion));
+                        //MusicUtils.playVoice("blink");
+                    }).start();
                 } else {
                     System.out.println("error: " + (System.currentTimeMillis() - lastMotion));
                 }
+                OtherUtils.sleepWinoutEx(300);
             }
         }).start();
     }
@@ -96,7 +101,6 @@ public class Turret {
             double xTemp = 0;
             double yTemp = 0;
             byte state = 0;
-            deploy();
             MusicUtils.playVoice("losted");
             if (xTemp >= 0 && yTemp >= 0) {
                 state = 0;
@@ -107,14 +111,13 @@ public class Turret {
             } else if (xTemp < 0 && yTemp < 0) {
                 state = 3;
             }
-            System.out.println(state);
             DecimalFormat df = new DecimalFormat("#.####");
             int i = 0;
             for (; busySearch && i <= (numSearch - 1); i++) {
                 for (; xTemp <= maxX && state == 0 && busySearch; xTemp += 0.5) {
                     yTemp = Math.sqrt(Math.sqrt(Math.pow(c, 4) + 4 * (Math.pow(xTemp, 2) * Math.pow(c, 2))) - Math.pow(xTemp, 2) - Math.pow(c, 2));
                     setX(xTemp);
-                    setY(yTemp/2);
+                    setY(yTemp / 2);
                     updatePosition();
                     OtherUtils.sleepWinoutEx(sleep);
                     if (xTemp >= maxX) {
@@ -125,7 +128,7 @@ public class Turret {
                 for (; xTemp >= 0 && state == 1 && busySearch; xTemp -= 0.5) {
                     yTemp = 0 - Math.sqrt(Math.sqrt(Math.pow(c, 4) + 4 * (Math.pow(xTemp, 2) * Math.pow(c, 2))) - Math.pow(xTemp, 2) - Math.pow(c, 2));
                     setX(xTemp);
-                    setY(yTemp/2);
+                    setY(yTemp / 2);
                     updatePosition();
                     OtherUtils.sleepWinoutEx(sleep);
                     if (xTemp <= 0) {
@@ -136,7 +139,7 @@ public class Turret {
                 for (; xTemp >= 0 - maxX && state == 2 && busySearch; xTemp -= 0.5) {
                     yTemp = Math.sqrt(Math.sqrt(Math.pow(c, 4) + 4 * (Math.pow(xTemp, 2) * Math.pow(c, 2))) - Math.pow(xTemp, 2) - Math.pow(c, 2));
                     setX(xTemp);
-                    setY(yTemp/2);
+                    setY(yTemp / 2);
                     updatePosition();
                     OtherUtils.sleepWinoutEx(sleep);
                     if (xTemp <= 0 - maxX) {
@@ -147,7 +150,7 @@ public class Turret {
                 for (; xTemp <= 0 && state == 3 && busySearch; xTemp += 0.5) {
                     yTemp = 0 - Math.sqrt(Math.sqrt(Math.pow(c, 4) + 4 * (Math.pow(xTemp, 2) * Math.pow(c, 2))) - Math.pow(xTemp, 2) - Math.pow(c, 2));
                     setX(xTemp);
-                    setY(yTemp/2);
+                    setY(yTemp / 2);
                     updatePosition();
                     OtherUtils.sleepWinoutEx(sleep);
                     if (xTemp >= 0) {
@@ -158,18 +161,20 @@ public class Turret {
                     }
                 }
             }
-            if (i == numSearch){
+            if (i == numSearch) {
                 MusicUtils.playVoice("lost_");
+                busySearch = false;
                 undeploy();
             }
         }
     }
 
-    public static void updatePosition(){
-        Arduino.getInstance().writeMsg("x"+x+"&y"+y);
+    public static void updatePosition() {
+        Arduino.getInstance().writeMsg("x" + x + "&y" + y);
     }
 
     public static void deploy() {
+        System.out.println("deploy");
         OtherUtils.sleepWinoutEx(5);
         z = -100;
         Arduino.getInstance().writeMsg("z-100");
@@ -180,6 +185,7 @@ public class Turret {
     }
 
     public static void undeploy() {
+        System.out.println("undeploy");
         OtherUtils.sleepWinoutEx(5);
         z = 100;
         Arduino.getInstance().writeMsg("z100");

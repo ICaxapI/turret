@@ -68,7 +68,7 @@ public class OpenCVFaceDetected extends Thread{
             System.out.println("Error, CAMERA NOT FOUND");
         } else {
             int sensivity = 20;
-            double maxArea = 10;
+            double maxArea = 20;
             long lastTime = System.currentTimeMillis();
             int fps = 0;
             for (int j = 0; j < 3; j++) {
